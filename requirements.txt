@@ -1,3 +1,4 @@
 Flask==0.10.1
 Flask-mail==0.9.1
 Flask-sqlalchemy==1.0
+Flask-WTF==0.13.1
