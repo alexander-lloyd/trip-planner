@@ -34,29 +34,121 @@
 
     <!-- Main Menu -->
     <div class="side-menu-container">
-        <ul class="nav navbar-nav">
-
-            <!-- Dropdown-->
-            <li class="panel panel-default" id="dropdown">
-                <a data-toggle="collapse" href="#dropdown-lvl1">
-                    <span class="glyphicon glyphicon-plane"></span> Add Event...<span class="caret"></span>
-                </a>
-
-                <!-- Dropdown level 1 -->
-                <div id="dropdown-lvl1" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <ul class="nav navbar-nav">
-                            <li><a href="#">Transit Event</a></li>
-                            <li><a href="#">Location Event</a></li>
-                        </ul>
+        <div class="col-md-12">
+            <div class="panel-group" id="dropdown_events">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#dropdown_events" href="#collapseOne"><span class="glyphicon glyphicon-plane">
+                            </span>Transport</a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in">
+                        <div class="panel-body">
+                            <table class="table">
+                                <tr>
+                                    <td>
+                                        <span class="glyphicon glyphicon-send"></span><a>Fly</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="glyphicon glyphicon-road"></span><a>Car</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="glyphicon glyphicon-briefcase"></span><a>Car-Hire</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="glyphicon glyphicon-globe"></span><a>Walking</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="glyphicon glyphicon-modal-window"></span><a>Public Transport</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </li>
-
-            <li><a href="#"><span class="glyphicon glyphicon-signal"></span> Lucky Dip</a></li>
-
-        </ul>
-    </div><!-- /.navbar-collapse -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#dropdown_events" href="#collapseTwo"><span class="glyphicon glyphicon-lamp">
+                            </span>Accommodation</a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <table class="table">
+                                <tr>
+                                    <td>
+                                        <span class="glyphicon glyphicon-bed"></span><a>Hotel</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="glyphicon glyphicon-phone-alt"></span><a>Hostel</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="glyphicon glyphicon-tent"></span><a>Camping</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#dropdown_events" href="#collapseThree"><span class="glyphicon glyphicon-flag">
+                            </span>Attractions</a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <table class="table">
+                                <tr>
+                                    <td>
+                                        <span class="glyphicon glyphicon-music"></span><a>Local Attractions</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="glyphicon glyphicon-glass"></span><a>Bars</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="glyphicon glyphicon-cutlery"></span><a>Restaurant</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="glyphicon glyphicon-tags"></span><a>Shopping</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#dropdown_events" href="#collapseFour"><span class="glyphicon glyphicon-asterisk">
+                            </span>Auto Fill</a>
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </nav>
 
     </div>
