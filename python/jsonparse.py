@@ -1,6 +1,11 @@
 import json
 import urllib.request
 from pprint import pprint
+import datetime
+from datetime import timedelta
+
+KEY = "AIzaSyDbcizcLuZ3ZT1M5xNE3ieYeT2YGn6HJ5s"
+TIME_SPENT_AT_ATTRACTIONS = 2
 
 class LocationNotFoundError(Exception):
     pass
@@ -15,26 +20,27 @@ class Location:
         self.placeLat = self.jsonData["result"]["geometry"]["location"]["lat"]
         self.placeLon = self.jsonData["result"]["geometry"]["location"]["lng"]
         self.placeID = self.jsonData["result"]["place_id"]
+        self.tripDuration = 0
 
-        for i in len (self.addressComponents):
+        for i in range (0, len (self.addressComponents)):
             if "postal_town" in self.addressComponents[i]["types"]:
                 self.town = self.addressComponents[i]["long_name"]
                 break
 
 
     def getLocationData(self, location):
-        url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + location + "&key=AIzaSyAd2-II-xiYnGx8bxvieAX8zJEWZYSFL4U"
+        url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + location + "&key=" + KEY
         try:
             placeID = self.jsonParseURL(url)["results"][0]["place_id"]
         except IndexError:
             raise LocationNotFoundError()
         
-        url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeID + "&key=AIzaSyAd2-II-xiYnGx8bxvieAX8zJEWZYSFL4U"
+        url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeID + "&key=" + KEY
         return self.jsonParseURL(url)
 
         
     def getLocalPlaces(self):
-        url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=things+to+do+near+" + self.location + "&key=AIzaSyAd2-II-xiYnGx8bxvieAX8zJEWZYSFL4U"
+        url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=things+to+do+near+" + self.town + "&key=" + KEY
         return self.jsonParseURL(url)
 
 
@@ -43,9 +49,13 @@ class Location:
               + "\nLat: " + str(self.placeLat) + "\nLon: " + str(self.placeLon))
         
 
-    def getDirections(self, otherLocation):
-        otherPlace = location(otherLocation)
-        url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.placeID + "&destination=place_id:" + otherPlace.placeID + "&mode=transit&key=AIzaSyAd2-II-xiYnGx8bxvieAX8zJEWZYSFL4U"
+    def getDirections(self, otherLocation, time=""):
+        otherPlace = Location(otherLocation)
+        if time == "":
+            url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.placeID + "&destination=place_id:" + otherPlace.placeID + "&mode=transit&key=" + KEY
+        else:
+            url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.placeID + "&destination=place_id:" + otherPlace.placeID + "&departure_time=" + time + "&mode=transit&key=" + KEY
+        
         jsonfile = self.jsonParseURL(url)
 
         startAddress = jsonfile["routes"][0]["legs"][0]["start_address"]
@@ -53,7 +63,7 @@ class Location:
         arrivalTime = jsonfile["routes"][0]["legs"][0]["arrival_time"]["text"]
         departureTime = jsonfile["routes"][0]["legs"][0]["departure_time"]["text"]
         distance = jsonfile["routes"][0]["legs"][0]["distance"]["text"]
-        duration = jsonfile["routes"][0]["legs"][0]["duration"]["text"]
+        duration = jsonfile["routes"][0]["legs"][0]["duration"]["value"]
         steps = jsonfile["routes"][0]["legs"][0]["steps"]
 
         print("From " + self.placeName + " to " + otherPlace.placeName + ":\n")
@@ -68,6 +78,8 @@ class Location:
                       
         print(distance + ", departing " + departureTime + " and arriving " +
               arrivalTime)
+
+        self.tripDuration = duration
 
 
     def jsonParseURL(self, url):
@@ -85,6 +97,21 @@ class DayPlanner:
         self.focus = focus
         self.location = Location(focus)
 
-    def findPlacesToVisit(self):
-        localPlaces = self.location.getLocalPlaces()
+    def findPlacesToVisit(self, noOfPlaces):
+        localPlaces = self.location.getLocalPlaces()["results"]
+
+        i = 0
+        time = datetime.datetime(2017, 2, 6, 9, 0, 0)
+        currLocation = self.location
+        
+        for j in range(0, len(localPlaces)):
+            nextLocation = Location(localPlaces[j]["name"])
+            currLocation.getDirections(nextLocation.placeName, str(int(time.timestamp())))
+            time += timedelta(seconds=currLocation.tripDuration)
+            time += timedelta(hours=TIME_SPENT_AT_ATTRACTIONS)
+            currLocation = nextLocation
+            i += 1
+
+            if i == noOfPlaces:
+                break
         
