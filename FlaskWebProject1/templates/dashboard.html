@@ -137,12 +137,27 @@
         </div>
     </div>
 </nav>
-
     </div>
-
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <ul id="sortable">
-                <li class="ui-state-default">Item 1</li>
+                <li class="ui-state-default">
+                    <table class="table table-condensed table-bordered">
+                        <tbody>
+                        <td class="agenda-time">
+                            5:30 AM
+                        </td>
+                        <td class="agenda-time">
+                            7:00 AM
+                        </td>
+                        <td class="agenda-events">
+                            <div class="agenda-event">
+                                Train to London
+                            </div>
+                        </td
+                        </tbody>
+
+                    </table>
+                </li>
                 <li class="ui-state-default">Item 2</li>
                 <li class="ui-state-default">Item 3</li>
                 <li class="ui-state-default">Item 4</li>
@@ -150,24 +165,20 @@
             </ul>
         </div>
 		<div class="col-sm-3 col-md-2 sidebar-right">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Reports</a></li>
-            <li><a href="#">Analytics</a></li>
-            <li><a href="#">Export</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item</a></li>
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-            <li><a href="">More navigation</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-          </ul>
+            <div class="container" id="sidebar_tabs">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#price" data-toggle="tab">Price</a></li>
+                    <li><a href="#suggested" data-toggle="tab">Suggested Places</a></li>
+                </ul>
+                <div class="tab-content clearfix">
+                    <div class="tab-pane active" id="price">
+                        <h3>ffd</h3>
+                    </div>
+                    <div class="tab-pane" id="suggested">
+                        <h3></h3>
+                    </div>
+                </div>
+            </div>
         </div>
       </div>
     </div>
