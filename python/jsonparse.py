@@ -5,6 +5,7 @@ import datetime
 from datetime import timedelta
 
 KEY = "AIzaSyDbcizcLuZ3ZT1M5xNE3ieYeT2YGn6HJ5s"
+TIME_SPENT_AT_ATTRACTIONS = 2
 
 class LocationNotFoundError(Exception):
     pass
@@ -107,6 +108,7 @@ class DayPlanner:
             nextLocation = Location(localPlaces[j]["name"])
             currLocation.getDirections(nextLocation.placeName, str(int(time.timestamp())))
             time += timedelta(seconds=currLocation.tripDuration)
+            time += timedelta(hours=TIME_SPENT_AT_ATTRACTIONS)
             currLocation = nextLocation
             i += 1
 
