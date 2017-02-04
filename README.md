@@ -16,3 +16,8 @@ Turning on debug mode. In Command Line in project root folder:
 
 - [ ] Test
 - [ ] Test
+
+
+### TODO HARRY
+- [ ] Add case where API requests have expired
+- [ ] If no town data exists, use the name
