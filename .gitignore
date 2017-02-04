@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> fa1095976645c769fde8e3c58d9601c96a2b9047
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -6,6 +10,7 @@ __pycache__/
 # C extensions
 *.so
 
+<<<<<<< HEAD
 # Distribution / packaging
 .Python
 env/
@@ -24,6 +29,8 @@ var/
 .installed.cfg
 *.egg
 
+=======
+>>>>>>> fa1095976645c769fde8e3c58d9601c96a2b9047
 # PyInstaller
 #  Usually these files are written by a python script from a template
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
@@ -51,6 +58,7 @@ coverage.xml
 
 # Django stuff:
 *.log
+<<<<<<< HEAD
 local_settings.py
 
 # Flask stuff:
@@ -91,3 +99,5 @@ ENV/
 
 #Pycharm
 .idea/
+=======
+>>>>>>> fa1095976645c769fde8e3c58d9601c96a2b9047
