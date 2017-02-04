@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from flask import render_template
+from flask import render_template, request, jsonify
 
 from . import main
 
@@ -13,3 +13,21 @@ def index():
 @main.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
+
+
+@main.route('/data/autocomplete')
+def autocomplete():
+    """
+
+    :return: Json in the form:
+
+    {
+    "suggestions": [ "United Arab Emirates", "United Kingdom", "United States" ]
+    }
+
+    """
+    query = request.args.get('term', '')
+    if query != '':
+        return jsonify({
+            "suggestions": ["United Arab Emirates", "United Kingdom", "United States"]
+        })

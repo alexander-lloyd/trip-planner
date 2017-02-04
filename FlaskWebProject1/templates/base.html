@@ -12,6 +12,7 @@
         <title>Trip Planner</title>
 
         <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
@@ -34,10 +35,12 @@
 
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
         <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
         <script src="{{ url_for('static', filename='js/holder.min.js') }}"></script>
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="{{ url_for('static', filename='js/ie10-viewport-bug-workaround.js') }}"></script>
+        {% block scripts %}{% endblock scripts %}
       </body>
     </html>
