@@ -15,19 +15,3 @@ def dashboard():
     return render_template('dashboard.html')
 
 
-@main.route('/data/autocomplete')
-def autocomplete():
-    """
-
-    :return: Json in the form:
-
-    {
-    "suggestions": [ "United Arab Emirates", "United Kingdom", "United States" ]
-    }
-
-    """
-    query = request.args.get('term', '')
-    if query != '':
-        return jsonify({
-            "suggestions": ["United Arab Emirates", "United Kingdom", "United States"]
-        })

@@ -139,30 +139,77 @@
 </nav>
     </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <ul id="sortable">
-                <li class="ui-state-default">
-                    <table class="table table-condensed table-bordered">
-                        <tbody>
+            <div class="agenda">
+        <div class="table-responsive">
+            <table class="table table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Event</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Single event in a single day -->
+                    <tr>
+                        <td class="agenda-date" class="active" rowspan="1">
+                            <div class="dayofmonth">26</div>
+                            <div class="dayofweek">Saturday</div>
+                            <div class="shortdate text-muted">July, 2014</div>
+                        </td>
                         <td class="agenda-time">
                             5:30 AM
                         </td>
+                        <td class="agenda-events">
+                            <div class="agenda-event">
+                                <i class="glyphicon glyphicon-repeat text-muted" title="Repeating event"></i> 
+                                Fishing
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Multiple events in a single day (note the rowspan) -->
+                    <tr>
+                        <td class="agenda-date" class="active" rowspan="3">
+                            <div class="dayofmonth">24</div>
+                            <div class="dayofweek">Thursday</div>
+                            <div class="shortdate text-muted">July, 2014</div>
+                        </td>
                         <td class="agenda-time">
-                            7:00 AM
+                            8:00 - 9:00 AM
                         </td>
                         <td class="agenda-events">
                             <div class="agenda-event">
-                                Train to London
+                                Doctor's Appointment
                             </div>
-                        </td
-                        </tbody>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="agenda-time">
+                            10:15 AM - 12:00 PM
+                        </td>
+                        <td class="agenda-events">
+                            <div class="agenda-event">
+                                Meeting with executives
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="agenda-time">
+                            7:00 - 9:00 PM
+                        </td>
+                        <td class="agenda-events">
+                            <div class="agenda-event">
+                                Aria's dance recital
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2645.9577697739874!2d-89.21424329999999!3d48.457339800000014!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4d5923eaca84fa67%3A0xfd2f9f807114acd4!2s292+Shuniah+St%2C+Thunder+Bay%2C+ON+P7A+3A2!5e0!3m2!1sen!2sca!4v1424272931061" width=100% height="450" frameborder="0" style="border:0"></iframe>
 
-                    </table>
-                </li>
-                <li class="ui-state-default">Item 2</li>
-                <li class="ui-state-default">Item 3</li>
-                <li class="ui-state-default">Item 4</li>
-                <li class="ui-state-default">Item 5</li>
-            </ul>
         </div>
 		<div class="col-sm-3 col-md-2 sidebar-right">
             <div class="container" id="sidebar_tabs">
@@ -175,7 +222,20 @@
                         <h3>ffd</h3>
                     </div>
                     <div class="tab-pane" id="suggested">
-                        <h3></h3>
+                        <div class="post">
+                            <div class="post-img-content">
+                                <img src="http://placehold.it/460x250/e67e22/ffffff&text=HTML5" class="img-responsive" />
+                            </div>
+                            <div class="content">
+                                <h4>Name</h4>
+                                <p>Address</p>
+                                <p>Quote</p>
+                                <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span>
+                                <div>
+                                    <a href="#" class="btn btn-warning btn-sm">Add to Plan</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -187,17 +247,8 @@
 {% block scripts %}
     <script>
         $( function() {
-            $("#sortable").sortable({
-                revert: true
-            });
-            $("#draggable").draggable({
-                connectToSortable: "#sortable",
-                helper: "clone",
-                revert: "invalid"
-            });
-            $("ul, li").disableSelection();
             $("#searchbar").autocomplete({
-                source:"{{ url_for('main.autocomplete') }}",
+                source:"{{ url_for('data.autocomplete') }}",
                 select: function (event, ui){
                     this.value = ui.item.label;
                     $(this).next("input").value(ui.item.value);
