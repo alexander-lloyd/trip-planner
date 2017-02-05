@@ -65,8 +65,17 @@ class Location:
         url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=popular+attractions+near+" + self.town + "&key=" + KEY
         url = url.replace(" ", "+")
 
-        return jsonParseURL(url)
+        json = jsonParseURL(url)
+        results = json["results"]
+        output = []
 
+        for i in range(len (results)):
+            output.append(
+                  [results[i]["name"], str(results[i]["rating"]),
+                  results[i]["formatted_address"]])
+                  #results[i]["photos"][0]["photo_reference"]])
+
+        return output
 
     def printDataOfTopLocation(self):
         print("Name: " + self.placeName + "\nAddress: " + self.placeAddress
@@ -143,26 +152,3 @@ class DayPlanner:
             if i == noOfPlaces:
                 break
 
-
-    def tour(self, places):
-        locations = []
-        for i in places:
-            locations.append(Location(i))
-
-        i = 0
-        time = datetime.datetime(2017, 2, 6, 9, 0, 0)
-        currLocation = self.location
-            
-        for j in range(0, len(locations) - 1):
-            nextLocation = locations[j+1]
-            route = Route(currLocation, nextLocation)
-            route.getDirections(str(int(time.timestamp())))
-            time += timedelta(seconds=currLocation.tripDuration)
-            time += timedelta(hours=TIME_SPENT_AT_ATTRACTIONS)
-            currLocation = nextLocation
-            i += 1
-
-        nextLocation = self.location
-        route = Route(currLocation, nextLocation)
-        route.getDirections(str(int(time.timestamp())))
-        
