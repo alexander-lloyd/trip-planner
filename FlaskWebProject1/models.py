@@ -75,18 +75,35 @@ class Location:
 
 
 class Route:
-    def __init__(self, start, end, waypoints=[]):
+    def __init__(self, start, end=None, waypoints=[]):
         self.start = start
         self.end = end
         self.waypoints = waypoints
 
-    def getDirections(self, time=""):
-        if time == "":
-            url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.start.placeID + "&destination=place_id:" + self.end.placeID + "&mode=transit&key=" + KEY
-        else:
-            url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.start.placeID + "&destination=place_id:" + self.end.placeID + "&departure_time=" + time + "&mode=transit&key=" + KEY
 
-        jsonfile = jsonParseURL(url)
+##    def waypoints(self, focus, waypoints):
+##        
+
+    
+    def getDirections(self, time=""):
+        if self.waypoints == []:
+            if time == "":
+                url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.start.placeID + "&destination=place_id:" + self.end.placeID + "&mode=transit&key=" + KEY
+            else:
+                url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.start.placeID + "&destination=place_id:" + self.end.placeID + "&departure_time=" + time + "&mode=transit&key=" + KEY
+
+            jsonfile = jsonParseURL(url)
+
+        else:
+            wayps = "&waypoints=optimize:true"
+            for i in self.waypoints:
+                wayps += ("|place_id:" + i)
+
+            if time == "":
+                url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.start.placeID + "&destination=place_id:" + self.start.placeID + wayps + "&mode=transit&key=" + KEY
+            else:
+                url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.start.placeID + "&destination=place_id:" + self.start.placeID + wayps + "&departure_time=" + time + "&mode=transit&key=" + KEY
+
 
         startAddress = jsonfile["routes"][0]["legs"][0]["start_address"]
         endAddress = jsonfile["routes"][0]["legs"][0]["end_address"]
@@ -115,7 +132,8 @@ class Route:
               arrivalTime + "\n\n")
 
         self.tripDuration = duration
-        
+
+
 
 
 class DayPlanner:
@@ -125,7 +143,6 @@ class DayPlanner:
 
     def findPlacesToVisit(self, noOfPlaces):
         localPlaces = self.location.getLocalPlaces()["results"]
-##        pprint(localPlaces)
 
         i = 0
         time = datetime.datetime(2017, 2, 6, 9, 0, 0)
