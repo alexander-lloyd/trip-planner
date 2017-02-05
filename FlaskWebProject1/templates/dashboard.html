@@ -306,11 +306,13 @@
                                 dialog.dialog('close');
                                 $body.removeClass("loading");
                                 $.get("{{ url_for('data.suggested') }}", function(data, status, jqXHR) {
+                                    var suggested = $("#suggested");
+                                    suggested.html("");
                                     data['data'].forEach(function(element) {
                                         name = element['name'];
                                         address = element['address'];
                                         stars = element['stars'];
-                                        $("#suggested").append(suggestion_template.format(name, address)); // TODO: Stars
+                                        suggested.append(suggestion_template.format(name, address)); // TODO: Stars
                                     });
                                 });
                                 // Set tab to recommendations tab

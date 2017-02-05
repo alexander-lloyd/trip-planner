@@ -71,6 +71,7 @@ class Location:
         return jsonParseURL(url)
 
     def getLocalPlaces(self):
+        print(self.town)
         url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=popular+attractions+near+" + self.town + "&key=" + KEY
         url = url.replace(" ", "+")
 

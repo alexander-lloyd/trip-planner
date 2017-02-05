@@ -48,6 +48,7 @@ def suggested():
     :return: Request Object
     """
     pickled = session.get("location")
+    print(pickled)
     location = pickle.loads(pickled)
     print("Location after pickle" + str(location))
     print(location.location)
@@ -72,7 +73,10 @@ def auto_fill():
     print(location.jsonData)
     print("Location before pickle " + str(location))
     print(location.location)
-    session.clear()
+    try:
+        session.pop('location')
+    except KeyError:
+        assert 'location' not in session
     session['location'] = pickle.dumps(location)
     print(session['location'])
     return l
