@@ -5,7 +5,7 @@ from datetime import timedelta
 import requests
 import math
 
-KEY = "AIzaSyDtt6WacJ9B4gouvMAPUafF1ESvP64G8AY"
+KEY = "AIzaSyD7zL25mE2UmVjWMwVIE8XkQ9zv4zQ1AS8"
 TIME_SPENT_AT_ATTRACTIONS = 3
 
 
@@ -18,6 +18,15 @@ class APIQueryLimitReachedError(Exception):
 
 
 def jsonParseURL(url):
+    """
+
+    From URL get data. requests now deals with all the encodings
+
+    :param url: string of URL
+    :return: JSON File
+
+    :raises: APIQueryLimitReachedError if we hit the API limit
+    """
     response = requests.get(url)
     data = response.text
     jsonfile = json.loads(data)

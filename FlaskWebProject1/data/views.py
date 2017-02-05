@@ -50,7 +50,7 @@ def suggested():
     pickled = session.get("location")
     location = pickle.loads(pickled)
     print("Location after pickle" + str(location))
-    print(location)
+    print(location.location)
     if location is not None:
         print(location)
         attractions = location.getLocalPlaces()
@@ -69,7 +69,9 @@ def auto_fill():
     print("Starting Auto Fill")
     l = request.args.get('location')
     location = Location(l)
+    print(location.jsonData)
     print("Location before pickle " + str(location))
+    print(location.location)
     session.clear()
     session['location'] = pickle.dumps(location)
     print(session['location'])
