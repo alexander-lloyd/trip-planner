@@ -12,7 +12,7 @@
           <a class="navbar-brand" href="#">Trip Planner</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-nav navbar-left">
             <li><a href="#">Dashboard</a></li>
             <li class="dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu
@@ -25,8 +25,8 @@
 		    </li>
             <li><a href="#">Open...</a></li>
           </ul>
-          <form class="navbar-form navbar-left">
-            <input id="searchbar" type="text" class="form-control" placeholder="Search...">
+          <form class="navbar-form navbar-right">
+            <input id="searchbar" type="text" class="form-control" placeholder="Search">
           </form>
         </div>
       </div>
@@ -34,3 +34,18 @@
     {% block user_content %}
     {% endblock user_content %}
 {% endblock content %}
+
+{% block scripts %}
+    <script>
+    $(document).ready(function() {
+        // Search Bar
+        $("#searchbar").autocomplete({
+            source:"{{ url_for('data.autocomplete') }}",
+            minlength: 2,
+            select: function (event, ui){
+                console.log("Selected" + ui.item.value);
+            }
+        });
+    })
+    </script>
+{% endblock scripts %}

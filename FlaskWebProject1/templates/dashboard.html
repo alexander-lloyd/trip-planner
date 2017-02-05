@@ -2,36 +2,28 @@
 {% block user_content %}
 
 
-
     <div class="container-fluid">
-      <div class="row">
-    <!-- uncomment code for absolute positioning tweek see top comment in css -->
-    <!-- <div class="absolute-wrapper"> </div> -->
-    <!-- Menu -->
-    <div class="side-menu">
-
-    <nav class="navbar navbar-default" role="navigation">
+        <div class="row">
+            <div class="side-menu">
+                <nav class="navbar navbar-default" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-        <div class="brand-wrapper">
-            <div class="brand-name-wrapper"><h3>Add Events</h3></div>
-        </div>
-
-    </div>
-
-    <!-- Main Menu -->
-    <div class="side-menu-container">
-        <div class="col-md-12">
-            <div class="panel-group" id="dropdown_events">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#dropdown_events" href="#collapseOne"><span class="glyphicon glyphicon-plane">
-                            </span> Transport</a>
-                        </h4>
+                    <div class="navbar-header">
+                        <div class="brand-wrapper">
+                            <div class="brand-name-wrapper"><h3>Add Events</h3></div>
+                        </div>
                     </div>
-                    <div id="collapseOne" class="panel-collapse collapse in">
-                        <div class="panel-body">
+                    <!-- Main Menu -->
+                    <div class="side-menu-container">
+                        <div class="col-md-12">
+                            <div class="panel-group" id="dropdown_events">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#dropdown_events" href="#collapseOne"><span class="glyphicon glyphicon-plane"></span> Transport</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in">
+                                        <div class="panel-body">
                             <table class="table">
                                 <tr>
                                     <td>
@@ -128,7 +120,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#dropdown_events" href="#collapseFour"><span class="glyphicon glyphicon-asterisk">
+                            <a id="auto-fill" data-toggle="collapse" data-parent="#dropdown_events" href="#collapseFour"><span class="glyphicon glyphicon-asterisk">
                             </span> Auto Fill</a>
                         </h4>
                     </div>
@@ -140,22 +132,21 @@
     </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <div class="agenda">
-        <div class="table-responsive">
-            <table class="table table-condensed table-bordered">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Event</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Single event in a single day -->
-                    <tr>
-                        <td class="agenda-date" class="active" rowspan="1">
-                            <div class="dayofmonth">26</div>
-                            <div class="dayofweek">Saturday</div>
-                            <div class="shortdate text-muted">July, 2014</div>
+                <div class="table-responsive">
+                    <table class="table table-condensed table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Event</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="agenda-date" class="active" rowspan="1">
+                                    <div class="dayofmonth">26</div>
+                                    <div class="dayofweek">Saturday</div>
+                                    <div class="shortdate text-muted">July, 2014</div>
                         </td>
                         <td class="agenda-time">
                             5:30 AM
@@ -215,7 +206,7 @@
             <div class="container" id="sidebar_tabs">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#price" data-toggle="tab">Price</a></li>
-                    <li><a href="#suggested" data-toggle="tab">Suggested Places</a></li>
+                    <li><a id="suggested-button" href="#suggested" data-toggle="tab">Suggested Places</a></li>
                 </ul>
                 <div class="tab-content clearfix">
                     <div class="tab-pane active" id="price">
@@ -252,38 +243,83 @@
 
                     </div>
                     <div class="tab-pane" id="suggested">
-                        <div class="post">
-                            <div class="post-img-content">
-                                <img src="http://placehold.it/460x250/e67e22/ffffff&text=HTML5" class="img-responsive" />
-                            </div>
-                            <div class="content">
-                                <h4>Name</h4>
-                                <p>Address</p>
-                                <p>Quote</p>
-                                <span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span>
-                                <div>
-                                    <a href="#" class="btn btn-warning btn-sm">Add to Plan</a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
       </div>
     </div>
+
+    <div id="auto-fill-dialog" title="Basic dialog">
+        <form id="auto-fill-form">
+            <fieldset>
+                <label for="location">Current Location</label>
+                <input type="text" name="location" id="name" placeholder="Location Name" class="text ui-widget-content ui-corner-all">
+                <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="modal"></div>
+
 {% endblock user_content %}
 
 {% block scripts %}
+    {{ super() }}
     <script>
-        $( function() {
-            $("#searchbar").autocomplete({
-                source:"{{ url_for('data.autocomplete') }}",
-                select: function (event, ui){
-                    this.value = ui.item.label;
-                    $(this).next("input").value(ui.item.value);
-                    event.preventDefault();
-                }
+        var suggestion_template = `<div class="post"><div class="content"><h4>{0}</h4><p>{1}</p><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star"></span><span class="glyphicon glyphicon-star-empty"></span><div><a href="#" class="btn btn-warning btn-sm">Add to Plan</a></div></div></div>`;
+        var star_template
+
+
+        if (!String.prototype.format) {
+            String.prototype.format = function() {
+                var args = arguments;
+                return this.replace(/{(\d+)}/g, function(match, number) {
+                    return typeof args[number] != 'undefined'
+                            ? args[number]
+                            : match
+                            ;
+                });
+            };
+        }
+
+        $(document).ready(function() {
+            // Get modal ready
+
+            var $body = $("body");
+            $(document).on({
+                ajaxStart: function() {  console.log(this)},
+                ajaxStop: function() { $body.removeClass("loading"); }
+            });
+
+            //AutoFill
+            $("#auto-fill").click(function(event){
+                event.preventDefault();
+                var dialog = $("#auto-fill-dialog").dialog({
+                    modal: true,
+                    buttons: {
+                        "Plan Day": function(){
+                            $body.addClass("loading");
+                            $.get("{{ url_for('data.auto_fill') }}" +"?" + $('#auto-fill-form').serialize(), function(data, status, jqXHR) {
+                                console.log(data);
+                                // Close Auto Fill Modal
+                                dialog.dialog('close');
+                                $body.removeClass("loading");
+                                $.get("{{ url_for('data.suggested') }}", function(data, status, jqXHR) {
+                                    data['data'].forEach(function(element) {
+                                        name = element['name'];
+                                        address = element['address'];
+                                        stars = element['stars'];
+                                        $("#suggested").append(suggestion_template.format(name, address)); // TODO: Stars
+                                    });
+                                });
+                                // Set tab to recommendations tab
+                                $('#suggested-button').click();
+                            })}},
+                        Cancel: function() {
+                            dialog.dialog( "close" );
+                        }
+                });
             });
         });
     </script>

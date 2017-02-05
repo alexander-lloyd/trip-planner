@@ -1,7 +1,11 @@
-from flask import request, jsonify, abort
+import pickle
+import time
+from flask import request, jsonify, abort, session
 from . import data
 from ..models import Location
 
+
+# TODO: Handle Exceptions
 
 @data.route('/autocomplete')
 def autocomplete():
@@ -28,22 +32,45 @@ def suggested():
     parameter location -> Address for suggested Attractions.
     Note Address preferred
 
-    Output of getLocalPlaces()
+    Output of getLocalPlaces() ->
 
     {
-
-
+       data: [
+       {'name':...,
+        'address':...,
+        'stars':...,
+        'image_url':...},
+        {'name':...,
+        'address':...,
+        'stars':...,
+        'image_url':...},
     }
-
-
-
-
-
-    :return:
+    :return: Request Object
     """
-    location = request.args.get('location')
-    if location:
-        l_data = Location(location)
-        attractions = l_data.getLocalPlaces()
-        return attractions
-    return abort(400)
+    pickled = session.get("location")
+    location = pickle.loads(pickled)
+    print("Location after pickle" + str(location))
+    print(location)
+    if location is not None:
+        print(location)
+        attractions = location.getLocalPlaces()
+        print(attractions)
+        return jsonify({'data': attractions})
+        # return jsonify({
+        #         "data": [
+        #             {'name': "A",
+        #              'address': "B",
+        #              'stars': 3,}]
+        #     })
+
+
+@data.route('/auto_fill')
+def auto_fill():
+    print("Starting Auto Fill")
+    l = request.args.get('location')
+    location = Location(l)
+    print("Location before pickle " + str(location))
+    session.clear()
+    session['location'] = pickle.dumps(location)
+    print(session['location'])
+    return l
