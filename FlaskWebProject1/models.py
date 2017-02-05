@@ -1,29 +1,11 @@
 import json
-import urllib.request
 from pprint import pprint
 import datetime
 from datetime import timedelta
 import requests
 
-KEY = "AIzaSyDKr3_tYnPHF0zbO08plIyJTE8OkBOHf3w"
-TIME_SPENT_AT_ATTRACTIONS = 2
-
-
-def jsonParseURL(url):
-    # TODO - checks when API key is expired
-    
-    response = requests.get(url)
-    data = response.text
-
-    jsonfile = json.loads(data)
-
-    if jsonfile["status"] == "OVER_QUERY_LIMIT":
-        print("Query limit reached")
-        raise APIQueryLimitReachedException()
-
-
-##    pprint(jsonfile)
-    return (jsonfile)
+KEY = "AIzaSyAAVzNBEhnJujWK9UwjvDqz_pa-TQnkJp8"
+TIME_SPENT_AT_ATTRACTIONS = 3
 
 
 class LocationNotFoundError(Exception):
@@ -31,6 +13,20 @@ class LocationNotFoundError(Exception):
 
 class APIQueryLimitReachedError(Exception):
     pass
+
+
+def jsonParseURL(url):    
+    response = requests.get(url)
+    data = response.text
+    jsonfile = json.loads(data)
+
+    if jsonfile["status"] == "OVER_QUERY_LIMIT":
+        print("Query limit reached")
+        raise APIQueryLimitReachedError()
+
+##    pprint(jsonfile)
+    return (jsonfile)
+
 
 class Location:
     def __init__(self, location):
@@ -89,7 +85,7 @@ class Route:
             url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.start.placeID + "&destination=place_id:" + self.end.placeID + "&mode=transit&key=" + KEY
         else:
             url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.start.placeID + "&destination=place_id:" + self.end.placeID + "&departure_time=" + time + "&mode=transit&key=" + KEY
-        
+
         jsonfile = jsonParseURL(url)
 
         startAddress = jsonfile["routes"][0]["legs"][0]["start_address"]
