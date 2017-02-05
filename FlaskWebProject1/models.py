@@ -3,6 +3,7 @@ from pprint import pprint
 import datetime
 from datetime import timedelta
 import requests
+import math
 
 KEY = "AIzaSyDtt6WacJ9B4gouvMAPUafF1ESvP64G8AY"
 TIME_SPENT_AT_ATTRACTIONS = 3
@@ -70,10 +71,10 @@ class Location:
         output = []
 
         for i in range(len (results)):
-            output.append(
-                  [results[i]["name"], str(results[i]["rating"]),
-                  results[i]["formatted_address"]])
-                  #results[i]["photos"][0]["photo_reference"]])
+            output.append({"name" : results[i]["name"],
+                           "stars" : str(int(math.floor((results[i]["rating"])))),
+                           "address" : results[i]["formatted_address"]})
+                
 
         return output
 
