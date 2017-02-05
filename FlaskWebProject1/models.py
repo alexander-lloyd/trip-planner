@@ -75,7 +75,7 @@ class Location:
 
 
 class Route:
-    def __init__(self, start, end=None, waypoints=[]):
+    def __init__(self, start, end, waypoints=[]):
         self.start = start
         self.end = end
         self.waypoints = waypoints
