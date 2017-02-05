@@ -4,7 +4,7 @@ import datetime
 from datetime import timedelta
 import requests
 
-KEY = "AIzaSyAAVzNBEhnJujWK9UwjvDqz_pa-TQnkJp8"
+KEY = "AIzaSyDtt6WacJ9B4gouvMAPUafF1ESvP64G8AY"
 TIME_SPENT_AT_ATTRACTIONS = 3
 
 
@@ -75,35 +75,19 @@ class Location:
 
 
 class Route:
-    def __init__(self, start, end, waypoints=[]):
+    def __init__(self, start, end):
         self.start = start
         self.end = end
-        self.waypoints = waypoints
-
-
-##    def waypoints(self, focus, waypoints):
-##        
 
     
     def getDirections(self, time=""):
-        if self.waypoints == []:
-            if time == "":
-                url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.start.placeID + "&destination=place_id:" + self.end.placeID + "&mode=transit&key=" + KEY
-            else:
-                url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.start.placeID + "&destination=place_id:" + self.end.placeID + "&departure_time=" + time + "&mode=transit&key=" + KEY
-
-            jsonfile = jsonParseURL(url)
-
+        if time == "":
+            url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.start.placeID + "&destination=place_id:" + self.end.placeID + "&mode=transit&key=" + KEY
         else:
-            wayps = "&waypoints=optimize:true"
-            for i in self.waypoints:
-                wayps += ("|place_id:" + i)
+            url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.start.placeID + "&destination=place_id:" + self.end.placeID + "&departure_time=" + time + "&mode=transit&key=" + KEY
 
-            if time == "":
-                url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.start.placeID + "&destination=place_id:" + self.start.placeID + wayps + "&mode=transit&key=" + KEY
-            else:
-                url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.start.placeID + "&destination=place_id:" + self.start.placeID + wayps + "&departure_time=" + time + "&mode=transit&key=" + KEY
-
+        jsonfile = jsonParseURL(url)
+        print(url)
 
         startAddress = jsonfile["routes"][0]["legs"][0]["start_address"]
         endAddress = jsonfile["routes"][0]["legs"][0]["end_address"]
@@ -135,7 +119,6 @@ class Route:
 
 
 
-
 class DayPlanner:
     def __init__(self, focus):
         self.focus = focus
@@ -159,4 +142,27 @@ class DayPlanner:
 
             if i == noOfPlaces:
                 break
+
+
+    def tour(self, places):
+        locations = []
+        for i in places:
+            locations.append(Location(i))
+
+        i = 0
+        time = datetime.datetime(2017, 2, 6, 9, 0, 0)
+        currLocation = self.location
+            
+        for j in range(0, len(locations) - 1):
+            nextLocation = locations[j+1]
+            route = Route(currLocation, nextLocation)
+            route.getDirections(str(int(time.timestamp())))
+            time += timedelta(seconds=currLocation.tripDuration)
+            time += timedelta(hours=TIME_SPENT_AT_ATTRACTIONS)
+            currLocation = nextLocation
+            i += 1
+
+        nextLocation = self.location
+        route = Route(currLocation, nextLocation)
+        route.getDirections(str(int(time.timestamp())))
         
