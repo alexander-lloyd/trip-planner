@@ -558,16 +558,11 @@ body
 .post .content
 {
     padding: 15px;
-}
-.post .author
-{
-    font-size: 11px;
-    color: #737373;
-    padding: 25px 30px 20px;
+    padding-top: 100px;
 }
 .post .post-img-content
 {
-    height: 135px;
+    max-height: 135px;
     position: relative;
 }
 .post .post-img-content img
