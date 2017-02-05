@@ -12,11 +12,12 @@ TIME_SPENT_AT_ATTRACTIONS = 3
 class LocationNotFoundError(Exception):
     pass
 
+
 class APIQueryLimitReachedError(Exception):
     pass
 
 
-def jsonParseURL(url):    
+def jsonParseURL(url):
     response = requests.get(url)
     data = response.text
     jsonfile = json.loads(data)
@@ -25,7 +26,7 @@ def jsonParseURL(url):
         print("Query limit reached")
         raise APIQueryLimitReachedError()
 
-##    pprint(jsonfile)
+    ##    pprint(jsonfile)
     return (jsonfile)
 
 
@@ -42,14 +43,13 @@ class Location:
         self.placeID = self.jsonData["result"]["place_id"]
         self.tripDuration = 0
 
-        for i in range (0, len (self.addressComponents)):
+        for i in range(0, len(self.addressComponents)):
             if "postal_town" in self.addressComponents[i]["types"]:
                 self.town = self.addressComponents[i]["long_name"]
                 break
             elif "locality" in self.addressComponents[i]["types"]:
                 self.town = self.addressComponents[i]["long_name"]
                 break
-            
 
     def getLocationData(self, location):
         url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + location + "&key=" + KEY
@@ -57,11 +57,10 @@ class Location:
             placeID = jsonParseURL(url)["results"][0]["place_id"]
         except IndexError:
             raise LocationNotFoundError()
-        
+
         url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" + placeID + "&key=" + KEY
         return jsonParseURL(url)
 
-        
     def getLocalPlaces(self):
         url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=popular+attractions+near+" + self.town + "&key=" + KEY
         url = url.replace(" ", "+")
@@ -70,18 +69,16 @@ class Location:
         results = json["results"]
         output = []
 
-        for i in range(len (results)):
-            output.append({"name" : results[i]["name"],
-                           "stars" : str(int(math.floor((results[i]["rating"])))),
-                           "address" : results[i]["formatted_address"]})
-                
+        for i in range(len(results)):
+            output.append({"name": results[i]["name"],
+                           "stars": str(int(math.floor((results[i]["rating"])))),
+                           "address": results[i]["formatted_address"]})
 
         return output
 
     def printDataOfTopLocation(self):
         print("Name: " + self.placeName + "\nAddress: " + self.placeAddress
               + "\nLat: " + str(self.placeLat) + "\nLon: " + str(self.placeLon))
-        
 
 
 class Route:
@@ -89,7 +86,6 @@ class Route:
         self.start = start
         self.end = end
 
-    
     def getDirections(self, time=""):
         if time == "":
             url = "https://maps.googleapis.com/maps/api/directions/json?origin=place_id:" + self.start.placeID + "&destination=place_id:" + self.end.placeID + "&mode=transit&key=" + KEY
@@ -114,19 +110,17 @@ class Route:
             elif steps[i]["travel_mode"] == "TRANSIT":
                 try:
                     print("Take the " + steps[i]["transit_details"]["line"]["short_name"] + " line from " +
-                    steps[i]["transit_details"]["departure_stop"]["name"] + " to " +
-                    steps[i]["transit_details"]["arrival_stop"]["name"])
+                          steps[i]["transit_details"]["departure_stop"]["name"] + " to " +
+                          steps[i]["transit_details"]["arrival_stop"]["name"])
                 except KeyError:
                     print("Take the " + steps[i]["transit_details"]["line"]["name"] + " line from " +
-                    steps[i]["transit_details"]["departure_stop"]["name"] + " to " +
-                    steps[i]["transit_details"]["arrival_stop"]["name"])
+                          steps[i]["transit_details"]["departure_stop"]["name"] + " to " +
+                          steps[i]["transit_details"]["arrival_stop"]["name"])
 
-                      
         print(distance + ", departing " + departureTime + " and arriving " +
               arrivalTime + "\n\n")
 
         self.tripDuration = duration
-
 
 
 class DayPlanner:
@@ -140,7 +134,7 @@ class DayPlanner:
         i = 0
         time = datetime.datetime(2017, 2, 6, 9, 0, 0)
         currLocation = self.location
-        
+
         for j in range(0, len(localPlaces)):
             nextLocation = Location(localPlaces[j]["name"])
             route = Route(currLocation, nextLocation)
@@ -152,4 +146,3 @@ class DayPlanner:
 
             if i == noOfPlaces:
                 break
-
